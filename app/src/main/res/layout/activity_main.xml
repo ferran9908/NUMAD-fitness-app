@@ -16,8 +16,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logan_weaver_lgnwvr_mi4gfdl36yg_unsplash" />
 
+<!--    <com.google.android.gms.common.SignInButton-->
+<!--        android:id="@+id/sign_in_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        tools:layout_editor_absoluteX="142dp"-->
+<!--        tools:layout_editor_absoluteY="428dp" />-->
+
     <Button
-        android:id="@+id/button"
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login with Google"
