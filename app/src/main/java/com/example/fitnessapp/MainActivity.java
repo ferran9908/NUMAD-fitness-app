@@ -39,6 +39,16 @@ public class MainActivity extends AppCompatActivity {
 
         signInButton = findViewById(R.id.sign_in_button);
 
+        Button location = findViewById(R.id.button);
+        location.setOnClickListener(view -> {
+
+
+            Intent intent = new Intent(this, NewActivity.class);
+            startActivity(intent);
+
+
+        });
+
         // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
