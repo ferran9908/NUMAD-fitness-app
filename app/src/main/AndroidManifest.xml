@@ -18,6 +18,8 @@
             android:configChanges="orientation|screenSize|screenLayout"></activity>
         <activity android:name=".ProfileActivity"
             android:configChanges="orientation|screenSize|screenLayout"></activity>
+        <activity android:name=".GymActivity"
+            android:configChanges="orientation|screenSize|screenLayout"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
