@@ -3,6 +3,9 @@ package com.example.fitnessapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +27,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+// This is the login activity
 public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 9001;
@@ -36,18 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         signInButton = findViewById(R.id.sign_in_button);
-
-        Button location = findViewById(R.id.button);
-        location.setOnClickListener(view -> {
-
-
-            Intent intent = new Intent(this, NewActivity.class);
-            startActivity(intent);
-
-
-        });
 
         // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -60,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            updateUI(currentUser);
+        }
+
         // Set up a click listener for your Google Sign-In button
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
                 signIn();
             }
         });
+    }
+
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            Toast.makeText(MainActivity.this, "Signed in as: " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+            Intent mainScreen = new Intent(MainActivity.this, NewActivity.class);
+            MainActivity.this.startActivity(mainScreen);
+        }
     }
 
     private void signIn() {
@@ -78,16 +89,12 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Handle Google Sign-In
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-//                 Google Sign-In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
-                Toast.makeText(MainActivity.this, "Google Sign-In Successful.", Toast.LENGTH_SHORT).show();
             } catch (ApiException e) {
-                // Google Sign-In failed, update the UI accordingly
                 Log.d("API Exception", "onActivityResult: ", e);
                     Toast.makeText(MainActivity.this, "Google Sign-In failed.", Toast.LENGTH_SHORT).show();
                 }
@@ -103,13 +110,30 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign-In success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(MainActivity.this, "Signed in as: " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                            createUserInDatabase(user);
+                            updateUI(user);
                         } else {
                             // Sign-In failed, display a message to the user
                             Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+    }
+
+    private void createUserInDatabase(FirebaseUser firebaseUser) {
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            String email = firebaseUser.getEmail();
+            String displayName = firebaseUser.getDisplayName();
+
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+            DatabaseReference currentUserRef = usersRef.child(uid);
+
+            if (currentUserRef == null){
+                User user = new User(email, displayName);
+                currentUserRef.setValue(user.toMap());
+            }
+        }
     }
 
 }

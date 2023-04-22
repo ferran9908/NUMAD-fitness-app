@@ -6,19 +6,19 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="ProfileName"
-        app:layout_constraintBottom_toTopOf="@+id/profile_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.465"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="28dp"-->
+<!--        android:text="ProfileName"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/profile_name"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.465"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -26,9 +26,6 @@
         android:layout_height="100dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/logan_weaver_lgnwvr_mi4gfdl36yg_unsplash"
-        app:civ_border_color="#FFFFFF"
-        app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -124,8 +121,8 @@
     </LinearLayout>
     </LinearLayout>
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/line_chart"
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bar_chart"
         android:layout_width="344dp"
         android:layout_height="190dp"
         android:layout_marginTop="200dp"
@@ -140,7 +137,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/line_chart">
+        app:layout_constraintTop_toBottomOf="@id/bar_chart">
 
         <LinearLayout
             android:layout_width="match_parent"
