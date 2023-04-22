@@ -5,18 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class GymActivity extends Activity {
-
+public class NewRoutineActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gym);
+        setContentView(R.layout.activity_new_routine);
 
-        Button newRoutine = findViewById(R.id.newRoutine);
-        newRoutine.setOnClickListener(view -> {
+        Button addExercise = findViewById(R.id.addExercise);
+        addExercise.setOnClickListener(view -> {
 
 
-            Intent intent = new Intent(this, NewRoutineActivity.class);
+            Intent intent = new Intent(this, ExercisesActivity.class);
             startActivity(intent);
 
 

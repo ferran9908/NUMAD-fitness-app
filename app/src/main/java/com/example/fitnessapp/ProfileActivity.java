@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import android.Manifest;
+import android.widget.Button;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -44,6 +45,17 @@ public class ProfileActivity extends Activity {
 
         // Inside onCreate method
         LineChart lineChart = findViewById(R.id.line_chart);
+
+        //Calendar screen popup
+        Button calendar = findViewById(R.id.button_calendar);
+        calendar.setOnClickListener(view -> {
+
+
+            Intent intent = new Intent(this, CalendarActivity.class);
+            startActivity(intent);
+
+
+        });
 
         // Inside onCreate method
         CircleImageView profileImage = findViewById(R.id.profile_image);
