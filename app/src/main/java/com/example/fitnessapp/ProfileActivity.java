@@ -30,6 +30,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +41,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -52,6 +57,7 @@ import java.util.concurrent.CountDownLatch;
 
 import android.Manifest;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -165,7 +171,7 @@ public class ProfileActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        requestCameraPermission();
+//        requestCameraPermission();
 
         CircleImageView profileImage = findViewById(R.id.profile_image);
 
@@ -195,7 +201,6 @@ public class ProfileActivity extends Activity {
         String uid = currentUser.getUid();
 
         DatabaseReference firebaseUser = FirebaseDatabase.getInstance().getReference("users").child(uid);
-        Log.d(TAG, "onCreate: firebaseUser: user:" + firebaseUser);
 
         firebaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -269,190 +274,11 @@ public class ProfileActivity extends Activity {
         }
 
 
-        // Get a reference to the user's daily_totals
-//                DatabaseReference dailyTotalsRef = FirebaseDatabase.getInstance().getReference("users/" + uid + "/daily_totals");
-//
-//                // Get the current date
-//                Calendar cal = Calendar.getInstance();
-//                Date currentDate = cal.getTime();
-//
-//                // Loop through the past 7 days and sum the daily_totals
-//                for (int i = 6; i >= 0; i--) {
-//                    // Get the date for the current day
-//                    cal.setTime(currentDate);
-//                    cal.add(Calendar.DATE, -i);
-//                    Date date = cal.getTime();
-//
-//                    // Convert the date to a string in the format yyyy-MM-dd
-//                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                    String dateString = dateFormat.format(date);
-//
-//
-
-                    // Get the daily_totals for the current day
-//                    DatabaseReference dayTotalsRef = dailyTotalsRef.child(dateString);
-//                    weights = new ArrayList<>();
-//                    reps = new ArrayList<>();
-//                    int finalI = i;
-//                    dayTotalsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            // Sum up the daily_totals
-//                            todayWeight = 0;
-//                            todayReps = 0;
-//                            for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-//
-//                                if (childSnapshot.getKey().equals("reps")){
-//                                    Log.d(TAG, "onDataChange: reps: " + childSnapshot.getValue(Long.class));
-//                                    totalReps += childSnapshot.getValue(Long.class);
-//                                    todayReps += childSnapshot.getValue(Long.class);
-//                                }
-//                                if(childSnapshot.getKey().equals("weight")) {
-//                                    Log.d(TAG, "onDataChange: weight: " + childSnapshot.getValue(Long.class));
-//                                    totalWeight += childSnapshot.getValue(Long.class);
-//                                    todayWeight += childSnapshot.getValue(Long.class);
-//                                }
-//
-//                            }
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError databaseError) {
-//                            // Handle any errors
-//                        }
-//                    });
-//                    weights.add(new BarEntry((6 - finalI), todayWeight));
-//                    reps.add(new BarEntry((6 - finalI), todayReps));                    // Check if there are less than 7 days of data
-//                    if (i > 0 && dayTotalsRef == null) {
-//                        break;
-//                    }
-//                }
-//                showBarChart(weights, "Weights Lifted");
-
-
-
-
-
-//        UserData.getCurrentUserData(new UserData.UserDataCallback() {
-//
-//            @Override
-//            public void onUserDataReceived(User user) {
-//                Log.d(TAG, "onUserDataReceived: " + user.getImageUrl());
-//                Log.d(TAG, "onUserDataReceived: User: " + user);
-//                Glide.with(ProfileActivity.this)
-//                        .load(user.getImageUrl())
-//                        .placeholder(R.drawable.ic_profile) // Replace with your own placeholder image
-//                        .error(R.drawable.ic_gym) // Replace with your own error image
-//                        .into(profileImage);
-//
-//                profileName.setText(user.getDisplayName());
-//                if (user.getFollowers() != null)
-//                    followerCount.setText(String.valueOf(user.getFollowers().size()));
-//                if (user.getFollowing() != null)
-//                    followingCount.setText(String.valueOf(user.getFollowing().size()));
-//
-//                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//                String uid = null;
-//
-//                // Check if a user is logged in
-//                if (currentUser != null) {
-//                    // Get the user's UID
-//                    uid = currentUser.getUid();
-//                }
-//
-//                DatabaseReference workoutsRef = FirebaseDatabase.getInstance().getReference("workouts").child(uid);
-//
-//                workoutsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        if (snapshot.exists()){
-//                            workoutsCount.setText(String.valueOf(snapshot.getChildrenCount()));
-//                        }else{
-//                            workoutsCount.setText("0");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        Log.e(TAG, "onCancelled: " + error);
-//                    }
-//                });
-//
-//
-//
-//                // Get a reference to the user's daily_totals
-//                DatabaseReference dailyTotalsRef = FirebaseDatabase.getInstance().getReference("users/" + uid + "/daily_totals");
-//
-//                // Get the current date
-//                Calendar cal = Calendar.getInstance();
-//                Date currentDate = cal.getTime();
-//
-//                // Loop through the past 7 days and sum the daily_totals
-//                for (int i = 6; i >= 0; i--) {
-//                    // Get the date for the current day
-//                    cal.setTime(currentDate);
-//                    cal.add(Calendar.DATE, -i);
-//                    Date date = cal.getTime();
-//
-//                    // Convert the date to a string in the format yyyy-MM-dd
-//                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                    String dateString = dateFormat.format(date);
-//
-//                    // Get the daily_totals for the current day
-//                    DatabaseReference dayTotalsRef = dailyTotalsRef.child(dateString);
-//                    weights = new ArrayList<>();
-//                    reps = new ArrayList<>();
-//                    int finalI = i;
-//                    dayTotalsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            // Sum up the daily_totals
-//                            todayWeight = 0;
-//                            todayReps = 0;
-//                            for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-//
-//                                if (childSnapshot.getKey() == "reps"){
-//                                    Log.d(TAG, "onDataChange: reps: " + childSnapshot.getValue(Long.class));
-//                                    totalReps += childSnapshot.getValue(Long.class);
-//                                    todayReps += childSnapshot.getValue(Long.class);
-//                                }
-//                                if(childSnapshot.getKey() == "weight") {
-//                                    Log.d(TAG, "onDataChange: weight: " + childSnapshot.getValue(Long.class));
-//                                    totalWeight += childSnapshot.getValue(Long.class);
-//                                    todayWeight += childSnapshot.getValue(Long.class);
-//                                }
-//
-//                            }
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError databaseError) {
-//                            // Handle any errors
-//                        }
-//                    });
-//                    weights.add(new BarEntry((6 - finalI), todayWeight));
-//                    reps.add(new BarEntry((6 - finalI), todayReps));                    // Check if there are less than 7 days of data
-//                    if (i > 0 && dayTotalsRef == null) {
-//                        break;
-//                    }
-//                }
-//                showBarChart(weights, "Weights Lifted");
-//            }
-//
-//            @Override
-//            public void onError(String errorMessage) {
-//                Log.d(TAG, "onError: " + errorMessage);
-//            }
-//        });
-
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Log.d("PROFILE_IMAGE", "onClick: Profile pic");
-                takeProfilePicture();
+            public void onClick(View view) {
+                startCamera();
             }
         });
 
@@ -488,27 +314,11 @@ public class ProfileActivity extends Activity {
 
     }
 
-    private void requestCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted
-            } else {
-                // Permission denied
-            }
-        }
-    }
-
-    private void takeProfilePicture() {
+    private void startCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Log.d(TAG, "startCamera: before starting camera");
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            Log.d(TAG, "startCamera: Starting camera");
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
@@ -520,19 +330,100 @@ public class ProfileActivity extends Activity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-            CircleImageView profileImage = findViewById(R.id.profile_image);
-            Picasso.get().load(getImageUri(this, imageBitmap)).into(profileImage);
+            uploadImageToFirebase(imageBitmap);
         }
     }
 
-    public Uri getImageUri(Context context, Bitmap imageBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), imageBitmap, "Title", null);
-        return Uri.parse(path);
+    private void uploadImageToFirebase(Bitmap imageBitmap) {
+        // Get the current user
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        if (currentUser != null) {
+            // Create a unique filename
+            String imageFilename = "images/" + currentUser.getUid() + "-" + System.currentTimeMillis() + ".jpg";
+
+            // Convert the Bitmap to a byte array
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageData = baos.toByteArray();
+            // Upload the image to Firebase Storage
+            StorageReference imageRef = FirebaseStorage.getInstance().getReference().child(imageFilename);
+
+            UploadTask uploadTask = imageRef.putBytes(imageData);
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // Get the download URL of the image
+                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Save the download URL to the Firebase Realtime Database
+                            String imageUrl = uri.toString();
+                            String userId = currentUser.getUid();
+                            FirebaseDatabase.getInstance().getReference("users").child(userId).child("imageUrl").setValue(imageUrl);
+
+                            Toast.makeText(ProfileActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(ProfileActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(ProfileActivity.this, "User is not signed in.", Toast.LENGTH_SHORT).show();
+        }
     }
 
+//    private void requestCameraPermission() {
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+//                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // Permission granted
+//            } else {
+//                // Permission denied
+//            }
+//        }
+//    }
+//
+//    private void takeProfilePicture() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//
+//            CircleImageView profileImage = findViewById(R.id.profile_image);
+//            Picasso.get().load(getImageUri(this, imageBitmap)).into(profileImage);
+//        }
+//    }
+//
+//    public Uri getImageUri(Context context, Bitmap imageBitmap) {
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), imageBitmap, "Title", null);
+//        return Uri.parse(path);
+//    }
+//
 
 }
 
