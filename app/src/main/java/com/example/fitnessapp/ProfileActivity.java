@@ -21,12 +21,15 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -132,8 +135,25 @@ public class ProfileActivity extends Activity {
         BarChart barChart = findViewById(R.id.bar_chart);
         BarDataSet barDataSet = new BarDataSet(data, label);
         BarData chart = new BarData(barDataSet);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[] {"Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"}));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1);
+
+        YAxis yAxis = barChart.getAxisLeft();
+        yAxis.setAxisMinimum(0);
+        yAxis.setGranularity(10);
+
+        barChart.getAxisRight().setEnabled(false);
+        barChart.getDescription().setEnabled(false);
+        barChart.setDrawValueAboveBar(true);
+        barChart.animateY(1000);
+        xAxis.setTextColor(Color.WHITE);
+        yAxis.setTextColor(Color.WHITE);
         barChart.setData(chart);
         barChart.invalidate();
+
     }
 
     @Override
