@@ -31,6 +31,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -100,7 +101,7 @@ public class ProfileActivity extends Activity {
                 // Call the method to update the UI if all days have been fetched
                 daysFetched++;
                 if (daysFetched == 7) {
-                    updateChartData();
+                    updateChartData("weights");
                 }
             }
 
@@ -111,7 +112,7 @@ public class ProfileActivity extends Activity {
         });
     }
 
-    private void updateChartData() {
+    private void updateChartData(String type) {
         // Add the BarEntry instances to the lists
         for (int i = 6; i >= 0; i--) {
             weights.add(new BarEntry((6 - i), dailyWeights[i]));
@@ -119,7 +120,10 @@ public class ProfileActivity extends Activity {
         }
 
         // Update the UI with the data (e.g., updating a chart)
-        showBarChart(weights, "Weight Lifted");
+        if (type == "weights")
+            showBarChart(weights, "Weight Lifted");
+        else
+            showBarChart(reps, "Reps");
     }
 
     private List<BarEntry> weights = new ArrayList<>();
@@ -147,6 +151,7 @@ public class ProfileActivity extends Activity {
 
         barChart.getAxisRight().setEnabled(false);
         barChart.getDescription().setEnabled(false);
+        barChart.getDescription().setTextColor(Color.WHITE);
         barChart.setDrawValueAboveBar(true);
         barChart.animateY(1000);
         xAxis.setTextColor(Color.WHITE);
@@ -168,6 +173,23 @@ public class ProfileActivity extends Activity {
         TextView followerCount = findViewById(R.id.followers_count);
         TextView followingCount = findViewById(R.id.following_count);
         TextView workoutsCount = findViewById(R.id.workouts_count);
+
+        MaterialButton weightLifted = findViewById(R.id.weight_chart_button);
+        MaterialButton repsMade = findViewById(R.id.reps_chart_button);
+
+        weightLifted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateChartData("weights");
+            }
+        });
+
+        repsMade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateChartData("reps");
+            }
+        });
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();

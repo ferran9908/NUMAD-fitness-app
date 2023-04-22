@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <TextView-->
-<!--        android:id="@+id/textView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="28dp"-->
-<!--        android:text="ProfileName"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/profile_name"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.465"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.0"-->
-<!--        tools:ignore="MissingConstraints" />-->
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -129,7 +116,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingClass" />
+        tools:ignore="MissingClass" >
+    </com.github.mikephil.charting.charts.BarChart>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/weight_chart_button"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="30px"
+        android:text="Weight Lifted"
+        app:layout_constraintBottom_toTopOf="@id/button_grid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar_chart"
+        app:layout_constraintVertical_bias="0.511"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Pill" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/reps_chart_button"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30px"
+        android:text="Reps"
+        app:layout_constraintBottom_toTopOf="@id/button_grid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/weight_chart_button"
+        app:layout_constraintTop_toBottomOf="@id/bar_chart"
+        app:layout_constraintVertical_bias="0.511"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Pill" />
 
     <LinearLayout
         android:id="@+id/button_grid"
