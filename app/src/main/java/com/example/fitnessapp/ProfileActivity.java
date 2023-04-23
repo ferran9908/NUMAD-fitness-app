@@ -177,6 +177,13 @@ public class ProfileActivity extends Activity {
         MaterialButton weightLifted = findViewById(R.id.weight_chart_button);
         MaterialButton repsMade = findViewById(R.id.reps_chart_button);
 
+        Button exercise = findViewById(R.id.button_exercises);
+
+        exercise.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ExercisesActivity.class);
+            startActivity(intent);
+        });
+
         repsMade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -312,11 +319,7 @@ public class ProfileActivity extends Activity {
 
     private void startCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Log.d(TAG, "startCamera: before starting camera");
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            Log.d(TAG, "startCamera: Starting camera");
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//        }
+        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
     }
 
     @Override
@@ -334,7 +337,6 @@ public class ProfileActivity extends Activity {
     private void uploadImageToFirebase(Bitmap imageBitmap) {
         // Get the current user
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
 
         if (currentUser != null) {
             // Create a unique filename

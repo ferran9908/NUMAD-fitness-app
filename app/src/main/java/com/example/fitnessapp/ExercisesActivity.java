@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
@@ -24,12 +26,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class ExercisesActivity extends AppCompatActivity {
 
+    private static String TAG = "Exercise Activity";
     private ArrayList<ItemCard> itemList = new ArrayList<>();
     ;
 
@@ -108,7 +117,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
             }
         });
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+//        itemTouchHelper.attachToRecyclerView(recyclerView);
 
     }
 
@@ -198,9 +207,16 @@ public class ExercisesActivity extends AppCompatActivity {
 
     private void addItem(int position, String itemName, String itemDesc) {
         itemList.add(position, new ItemCard(itemName, itemDesc));
-        //Toast.makeText(NewActivityLinks.this, "Add an item", Toast.LENGTH_SHORT).show();
-
         rviewAdapter.notifyItemInserted(position);
+        DatabaseReference exercises = FirebaseDatabase.getInstance().getReference("exercises");
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", itemName);
+        if(itemDesc.equals("Weighted"))
+            result.put("isWeighted", true);
+        else
+            result.put("isWeighted", false);
+        exercises = exercises.push();
+        exercises.setValue(result);
     }
 
     public void editItem(View view) {
@@ -235,7 +251,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
                 // ensure that user input bar is not empty
                 if (getInput1 ==null || getInput1.trim().equals("")){
-                    Toast.makeText(getBaseContext(), "Please add link name", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Please add exercise name", Toast.LENGTH_LONG).show();
                 }
                 else if (getInput2 ==null || getInput2.trim().equals("")){
                     Toast.makeText(getBaseContext(), "Please add link description", Toast.LENGTH_LONG).show();
@@ -321,6 +337,37 @@ public class ExercisesActivity extends AppCompatActivity {
         }
         // The first time to opne this Activity
         else {
+            DatabaseReference workoutsRef = FirebaseDatabase.getInstance().getReference("exercises");
+            workoutsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot exerciseSnapshot: snapshot.getChildren()){
+                        String name = "";
+                        Boolean isWeighted = false;
+                        for (DataSnapshot exerciseData: exerciseSnapshot.getChildren()){
+                            if(exerciseData.getKey().equals("name")){
+                                name = exerciseData.getValue(String.class);
+                            } else {
+                                isWeighted = exerciseData.getValue(Boolean.class);
+                            }
+                        }
+                        ItemCard exercise;
+                        if (isWeighted){
+                            exercise = new ItemCard(name, "Weighted");
+                        } else {
+                            exercise = new ItemCard(name, "Bodyweight");
+                        }
+                        itemList.add(exercise);
+                        rviewAdapter.notifyItemChanged(itemList.size() - 1);
+                        rviewAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
 //            ItemCard item1 = new ItemCard( "Gmail", "www.gmail.com");
 //            ItemCard item2 = new ItemCard("Google", "www.google.com");
 //            itemList.add(item1);
