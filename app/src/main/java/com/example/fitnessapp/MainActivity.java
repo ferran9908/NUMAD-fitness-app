@@ -3,6 +3,8 @@ package com.example.fitnessapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,15 +28,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 // This is the login activity
 public class MainActivity extends AppCompatActivity {
 
+    private static String TAG = "MAIN_ACTIVITY";
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -129,10 +130,26 @@ public class MainActivity extends AppCompatActivity {
             DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
             DatabaseReference currentUserRef = usersRef.child(uid);
 
-            if (currentUserRef == null){
+            currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                        // The reference has children
+                        Log.d(TAG, "onDataChange: Already exists! Doing nothing!");
+                    } else {
+                        // The reference has no children
                 User user = new User(email, displayName);
                 currentUserRef.setValue(user.toMap());
-            }
+                        Log.d(TAG, "onDataChange: New User! Adding entry!");
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Handle any errors here
+                }
+            });
+
         }
     }
 

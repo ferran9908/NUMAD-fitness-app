@@ -66,6 +66,7 @@ public class ProfileActivity extends Activity {
     private static final int REQUEST_CAMERA_PERMISSION = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 200;
 
+    private CircleImageView profileImage;
 
     private double totalWeight = 0;
     private double totalReps = 0;
@@ -86,15 +87,11 @@ public class ProfileActivity extends Activity {
                 int todayWeight = 0;
                 int todayReps = 0;
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    Log.d(TAG, "onDataChange: Key: " + childSnapshot.getKey() );
-                    Log.d(TAG, "onDataChange: Value: " + childSnapshot.getValue() );
                     if (childSnapshot.getKey().equals("reps")){
-                            Log.d(TAG, "onDataChange: reps: " + childSnapshot.getValue(Long.class));
                             totalReps += childSnapshot.getValue(Long.class);
                             todayReps += childSnapshot.getValue(Long.class);
                         }
                     if(childSnapshot.getKey().equals("weight")) {
-                        Log.d(TAG, "onDataChange: weight: " + childSnapshot.getValue(Long.class));
                         totalWeight += childSnapshot.getValue(Long.class);
                         todayWeight += childSnapshot.getValue(Long.class);
                     }
@@ -173,7 +170,7 @@ public class ProfileActivity extends Activity {
         setContentView(R.layout.activity_profile);
 //        requestCameraPermission();
 
-        CircleImageView profileImage = findViewById(R.id.profile_image);
+         profileImage = findViewById(R.id.profile_image);
 
         TextView profileName = findViewById(R.id.profile_name);
         TextView followerCount = findViewById(R.id.followers_count);
@@ -317,10 +314,10 @@ public class ProfileActivity extends Activity {
     private void startCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Log.d(TAG, "startCamera: before starting camera");
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             Log.d(TAG, "startCamera: Starting camera");
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
+//        }
     }
 
     @Override
@@ -330,6 +327,7 @@ public class ProfileActivity extends Activity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            Log.d(TAG, "onActivityResult: BItmap Image:" + imageBitmap.toString());
             uploadImageToFirebase(imageBitmap);
         }
     }
@@ -352,78 +350,25 @@ public class ProfileActivity extends Activity {
 
             UploadTask uploadTask = imageRef.putBytes(imageData);
 
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // Get the download URL of the image
-                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            // Save the download URL to the Firebase Realtime Database
-                            String imageUrl = uri.toString();
-                            String userId = currentUser.getUid();
-                            FirebaseDatabase.getInstance().getReference("users").child(userId).child("imageUrl").setValue(imageUrl);
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                // Get the download URL of the image
+                imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    // Save the download URL to the Firebase Realtime Database
+                    String imageUrl = uri.toString();
+                    String userId = currentUser.getUid();
+                    FirebaseDatabase.getInstance().getReference("users").child(userId).child("imageUrl").setValue(imageUrl);
+                    Glide.with(ProfileActivity.this)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.ic_profile) // Replace with your own placeholder image
+                            .error(R.drawable.ic_gym) // Replace with your own error image
+                            .into(profileImage);
 
-                            Toast.makeText(ProfileActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(ProfileActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                });
+            }).addOnFailureListener(e -> Toast.makeText(ProfileActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         } else {
             Toast.makeText(ProfileActivity.this, "User is not signed in.", Toast.LENGTH_SHORT).show();
         }
     }
-
-//    private void requestCameraPermission() {
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-//                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
-//        }
-//    }
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // Permission granted
-//            } else {
-//                // Permission denied
-//            }
-//        }
-//    }
-//
-//    private void takeProfilePicture() {
-//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//        }
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//
-//            CircleImageView profileImage = findViewById(R.id.profile_image);
-//            Picasso.get().load(getImageUri(this, imageBitmap)).into(profileImage);
-//        }
-//    }
-//
-//    public Uri getImageUri(Context context, Bitmap imageBitmap) {
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-//        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), imageBitmap, "Title", null);
-//        return Uri.parse(path);
-//    }
-//
 
 }
 

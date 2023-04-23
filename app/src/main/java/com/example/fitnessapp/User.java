@@ -10,7 +10,10 @@ public class User {
     private String email;
     private String displayName;
     private String imageUrl;
+
+
     private List<String> followers;
+
     private List<String> following;
 
     public User() {}
@@ -38,6 +41,9 @@ public class User {
     public void setFollowing(List<String> following) {
         this.following = following;
     }
+
+
+
 
     public User(String email, String displayName) {
         this.email = email;
@@ -78,6 +84,7 @@ public class User {
         result.put("followers", followers);
         result.put("following", following);
         result.put("imageUrl", imageUrl);
+        result.put("dailyTotal", null);
         return result;
     }
 
