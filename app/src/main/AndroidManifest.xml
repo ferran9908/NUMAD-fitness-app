@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +16,18 @@
         android:theme="@style/Theme.FitnessApp"
         tools:targetApi="31">
         <activity android:name=".NewActivity"
+            android:configChanges="orientation|screenSize|screenLayout"></activity>
+        <activity android:name=".ProfileActivity"
+            android:configChanges="orientation|screenSize|screenLayout"></activity>
+        <activity android:name=".GymActivity"
+            android:configChanges="orientation|screenSize|screenLayout"></activity>
+        <activity android:name=".NewRoutineActivity"
+            android:configChanges="orientation|screenSize|screenLayout"></activity>
+        <activity android:name=".ExercisesActivity"
+            android:configChanges="orientation|screenSize|screenLayout"></activity>
+        <activity android:name=".CalendarActivity"
+            android:configChanges="orientation|screenSize|screenLayout"></activity>
+        <activity android:name=".NewWorkoutActivity"
             android:configChanges="orientation|screenSize|screenLayout"></activity>
         <activity
             android:name=".MainActivity"

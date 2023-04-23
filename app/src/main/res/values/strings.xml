@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Fitness App</string>
+
+    <string-array name="dropdown_values">
+        <item>Weighted</item>
+        <item>Body Weight</item>
+    </string-array>
 </resources>
