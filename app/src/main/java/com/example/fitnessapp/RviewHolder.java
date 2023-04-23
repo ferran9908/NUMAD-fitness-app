@@ -1,6 +1,7 @@
 package com.example.fitnessapp;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,8 @@ public class RviewHolder extends RecyclerView.ViewHolder {
     public TextView itemDesc;
 
     public ImageView editButton;
+
+
 
 
     public RviewHolder(View itemView, final ItemClickListener listener) {

@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,8 @@ public class ExercisesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercises);
 
         init(savedInstanceState);
+
+
 
         //Nave Bar actions
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -109,42 +113,40 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     public void showDialog(View view) {
+
+
         final EditText[] txt = new EditText[2]; // user input bar
         AlertDialog.Builder alertName = new AlertDialog.Builder(this);
         final EditText editTextName1 = new EditText(ExercisesActivity.this);
-        editTextName1.setHint(" Enter Name:");
-        final EditText editTextName2 = new EditText(ExercisesActivity.this);
-        editTextName2.setHint(" Enter Link:");
+        editTextName1.setHint("Enter Exercise Name:");
+        final Spinner spinnerExerciseType = new Spinner(ExercisesActivity.this);
+        ArrayAdapter<CharSequence> adapterExerciseType = ArrayAdapter.createFromResource(this,
+                R.array.exercise_types_array    , android.R.layout.simple_spinner_item);
+        adapterExerciseType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerExerciseType.setAdapter(adapterExerciseType);
 
-        alertName.setTitle(" Add New Link");
+        alertName.setTitle(" Add New Exercise");
         // titles can be used regardless of a custom layout or not
-        alertName.setView(editTextName1);
         LinearLayout layoutName = new LinearLayout(this);
         layoutName.setOrientation(LinearLayout.VERTICAL);
         layoutName.addView(editTextName1); // displays the user input bar
-        layoutName.addView(editTextName2); // displays the user input bar
+        layoutName.addView(spinnerExerciseType); // displays the dropdown menu
         alertName.setView(layoutName);
 
         alertName.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 txt[0] = editTextName1; // variable to collect user input
-                txt[1] = editTextName2; // variable to collect user input
                 // convert edit text to string
                 String getInput1 = txt[0].getText().toString();
-                String getInput2 = txt[1].getText().toString();
+                String selectedExerciseType = spinnerExerciseType.getSelectedItem().toString();
 
                 // ensure that user input bar is not empty
-                if (getInput1 ==null || getInput1.trim().equals("")){
-                    Toast.makeText(getBaseContext(), "Please add link name", Toast.LENGTH_LONG).show();
-                }
-                else if (getInput2 ==null || getInput2.trim().equals("")){
-                    Toast.makeText(getBaseContext(), "Please add link", Toast.LENGTH_LONG).show();
-                }
-                // add input into an data collection arraylist
-                else {
-                    addItem(0,getInput1, getInput2);
+                if (getInput1 == null || getInput1.trim().equals("")) {
+                    Toast.makeText(getBaseContext(), "Please add exercise name", Toast.LENGTH_LONG).show();
+                } else {
+                    addItem(0, getInput1, selectedExerciseType);
 
-                    Snackbar.make(recyclerView, getInput1 +" link added", Snackbar.LENGTH_LONG)
+                    Snackbar.make(recyclerView, getInput1 + " exercise added", Snackbar.LENGTH_LONG)
                             .setAction("Undo", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -158,18 +160,16 @@ public class ExercisesActivity extends AppCompatActivity {
                                 }
                             }).show();
                 }
-
-
-
             }
         });
 
         alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.cancel(); // closes dialog
+                // Canceled.
             }
         });
-        alertName.show(); // display the dialog
+
+        alertName.show();
     }
 
     public void GetUrlFromIntent(View view) {

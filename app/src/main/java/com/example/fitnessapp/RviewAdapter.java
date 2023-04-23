@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,9 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder>{
     @Override
     public RviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
+
+
+
         return new RviewHolder(view, listener);
     }
 
@@ -43,6 +49,12 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder>{
     public void onBindViewHolder(RviewHolder holder, int position) {
         ItemCard currentItem = itemList.get(position);
         final String[] link = {itemList.get(position).getItemDesc()};
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                holder.itemView.getContext(), R.array.dropdown_values, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
 
         holder.itemName.setText(currentItem.getItemName());
         holder.itemDesc.setText(currentItem.getItemDesc());
