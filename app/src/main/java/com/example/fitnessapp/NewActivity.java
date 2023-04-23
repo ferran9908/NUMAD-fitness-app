@@ -126,8 +126,12 @@ public class NewActivity extends Activity {
         else {
             ProfileCard item1 = new ProfileCard( "Bhoomika", "Leg Day","50min", "Squats", "Lunges", "Push ups" );
             ProfileCard item2 = new ProfileCard("Mohit", "Core Day","20min", "Squats", "Abs Curl", "Push ups");
+            ProfileCard item3 = new ProfileCard( "Ferran", "Leg Day","50min", "Squats", "Lunges", "Push ups" );
+            ProfileCard item4 = new ProfileCard("Prats", "Core Day","20min", "Squats", "Abs Curl", "Push ups");
             profileList.add(item1);
             profileList.add(item2);
+            profileList.add(item3);
+            profileList.add(item4);
         }
     }
 }
