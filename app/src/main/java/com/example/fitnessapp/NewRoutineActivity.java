@@ -177,32 +177,32 @@ public class NewRoutineActivity extends Activity {
 
 
         //Nave Bar actions
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        // Handle the home action
-                        Intent intentHome = new Intent(NewRoutineActivity.this, NewActivity.class);
-                        startActivity(intentHome);
-
-                        break;
-                    case R.id.action_gym:
-                        // Handle the search action
-                        Intent intentGym = new Intent(NewRoutineActivity.this, GymActivity.class);
-                        startActivity(intentGym);
-
-                        break;
-                    case R.id.action_profile:
-                        // Handle the settings action
-                        Intent intent = new Intent(NewRoutineActivity.this, ProfileActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-                return true;
-            }
-        });
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.action_home:
+//                        // Handle the home action
+//                        Intent intentHome = new Intent(NewRoutineActivity.this, NewActivity.class);
+//                        startActivity(intentHome);
+//
+//                        break;
+//                    case R.id.action_gym:
+//                        // Handle the search action
+//                        Intent intentGym = new Intent(NewRoutineActivity.this, GymActivity.class);
+//                        startActivity(intentGym);
+//
+//                        break;
+//                    case R.id.action_profile:
+//                        // Handle the settings action
+//                        Intent intent = new Intent(NewRoutineActivity.this, ProfileActivity.class);
+//                        startActivity(intent);
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
 
         Button addExercise = findViewById(R.id.addExercise);
         addExercise.setOnClickListener(view -> {
