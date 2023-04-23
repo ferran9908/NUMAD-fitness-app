@@ -20,7 +20,7 @@ public class NewActivity extends Activity {
     ;
 
     private RecyclerView recyclerView;
-    private RviewAdapter rviewAdapter;
+    private RviewAdapterProfile rviewAdapter;
     private RecyclerView.LayoutManager rLayoutManger;
     private static final String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
     private static final String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
@@ -77,7 +77,7 @@ public class NewActivity extends Activity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        rviewAdapter = new RviewAdapter(profileList, this);
+        rviewAdapter = new RviewAdapterProfile(profileList, this);
         ItemClickListener itemClickListener = new ItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -100,29 +100,34 @@ public class NewActivity extends Activity {
 
         // Not the first time to open this Activity
         if (savedInstanceState != null && savedInstanceState.containsKey(NUMBER_OF_ITEMS)) {
-            if (itemList == null || itemList.size() == 0) {
+            if (profileList == null || profileList.size() == 0) {
 
                 int size = savedInstanceState.getInt(NUMBER_OF_ITEMS);
 
                 // Retrieve keys we stored in the instance
                 for (int i = 0; i < size; i++) {
 
-                    // @Ferr Replace with DB get
-                    String itemName = savedInstanceState.getString(KEY_OF_INSTANCE + i + "0");
-                    String itemDesc = savedInstanceState.getString(KEY_OF_INSTANCE + i + "1");
+                    // @Ferr Replace with DB data for profiles
+
+                    String profileName = "null";
+                    String exercise = "null";
+                    String time = "null";
+                    String workout1 = "null";
+                    String workout2 = " ";
+                    String workout3 = " ";
 
                     ProfileCard profileCard = new ProfileCard(  profileName,  exercise,  time,  workout1,  workout2,  workout3 );
 
-                    itemList.add(itemCard);
+                    profileList.add(profileCard);
                 }
             }
         }
-        // The first time to opne this Activity
+        //The first time to opne this Activity
         else {
-//            ItemCard item1 = new ItemCard( "Gmail", "www.gmail.com");
-//            ItemCard item2 = new ItemCard("Google", "www.google.com");
-//            itemList.add(item1);
-//            itemList.add(item2);
+            ProfileCard item1 = new ProfileCard( "Bhoomika", "Leg Day","50min", "Squats", "Lunges", "Push ups" );
+            ProfileCard item2 = new ProfileCard("Mohit", "Core Day","20min", "Squats", "Abs Curl", "Push ups");
+            profileList.add(item1);
+            profileList.add(item2);
         }
     }
 }

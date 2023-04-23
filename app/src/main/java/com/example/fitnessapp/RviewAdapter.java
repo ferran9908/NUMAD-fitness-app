@@ -50,10 +50,6 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder>{
         ItemCard currentItem = itemList.get(position);
         final String[] link = {itemList.get(position).getItemDesc()};
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                holder.itemView.getContext(), R.array.dropdown_values, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
 
 
         holder.itemName.setText(currentItem.getItemName());
