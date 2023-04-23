@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    app:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F4F4F4"
+        android:padding="16dp">
+
+        <!-- Profile picture -->
+
+        <!-- Name -->
+
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="119dp"
+            android:layout_height="131dp"
+            android:layout_above="@+id/exercises_layout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="-16dp" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="508dp"
+            android:layout_height="34dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="36dp"
+            android:layout_toEndOf="@id/profile_picture"
+            android:text="John Doe"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Workout name -->
+        <TextView
+            android:id="@+id/workout_name"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="34dp"
+            android:layout_toEndOf="@id/profile_picture"
+            android:text="Morning Workout"
+            android:textSize="16sp" />
+
+        <!-- Exercises layout -->
+
+        <!-- Like icon -->
+
+        <!-- Share icon -->
+
+        <RelativeLayout
+            android:id="@+id/exercises_layout"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/workout_name"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="53dp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/exercises_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Workout Exercises"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Exercise 1 -->
+            <TextView
+                android:id="@+id/exercise_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/exercises_title"
+                android:layout_marginTop="8dp"
+                android:text="Push-ups x10"
+                android:textSize="14sp" />
+
+            <!-- Exercise 2 -->
+            <TextView
+                android:id="@+id/exercise_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/exercise_1"
+                android:layout_marginTop="8dp"
+                android:text="Sit-ups x15"
+                android:textSize="14sp" />
+
+            <!-- Exercise 3 -->
+            <TextView
+                android:id="@+id/exercise_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/exercise_2"
+                android:layout_marginTop="8dp"
+                android:text="Squats x20"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/like_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@id/exercises_layout"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="62dp"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/like_icon" />
+
+        <!-- Comment icon -->
+
+        <ImageView
+            android:id="@+id/share_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@+id/exercises_layout"
+            android:layout_marginStart="229dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="69dp"
+            android:layout_toEndOf="@+id/like_icon"
+            android:src="@drawable/share_icon" />
+
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

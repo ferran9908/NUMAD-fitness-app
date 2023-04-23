@@ -10,12 +10,11 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class GymActivity extends Activity {
-
+public class NewRoutineActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gym);
+        setContentView(R.layout.activity_new_routine);
 
         //Nave Bar actions
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -25,19 +24,19 @@ public class GymActivity extends Activity {
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         // Handle the home action
-                        Intent intentHome = new Intent(GymActivity.this, NewActivity.class);
+                        Intent intentHome = new Intent(NewRoutineActivity.this, NewActivity.class);
                         startActivity(intentHome);
 
                         break;
                     case R.id.action_gym:
                         // Handle the search action
-                        Intent intentGym = new Intent(GymActivity.this, GymActivity.class);
+                        Intent intentGym = new Intent(NewRoutineActivity.this, GymActivity.class);
                         startActivity(intentGym);
 
                         break;
                     case R.id.action_profile:
                         // Handle the settings action
-                        Intent intent = new Intent(GymActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(NewRoutineActivity.this, ProfileActivity.class);
                         startActivity(intent);
                         break;
                 }
@@ -45,21 +44,11 @@ public class GymActivity extends Activity {
             }
         });
 
-        Button newRoutine = findViewById(R.id.newRoutine);
-        newRoutine.setOnClickListener(view -> {
+        Button addExercise = findViewById(R.id.addExercise);
+        addExercise.setOnClickListener(view -> {
 
 
-            Intent intent = new Intent(this, NewRoutineActivity.class);
-            startActivity(intent);
-
-
-        });
-
-        Button newWorkout = findViewById(R.id.newWorkout);
-        newWorkout.setOnClickListener(view -> {
-
-
-            Intent intent = new Intent(this, NewWorkoutActivity.class);
+            Intent intent = new Intent(this, ExercisesActivity.class);
             startActivity(intent);
 
 

@@ -1,12 +1,9 @@
 package com.example.fitnessapp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -15,23 +12,15 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +33,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
@@ -53,11 +41,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
-import android.Manifest;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -157,8 +144,8 @@ public class ProfileActivity extends Activity {
         barChart.getDescription().setTextColor(Color.WHITE);
         barChart.setDrawValueAboveBar(true);
         barChart.animateY(1000);
-        xAxis.setTextColor(Color.WHITE);
-        yAxis.setTextColor(Color.WHITE);
+        xAxis.setTextColor(Color.BLACK);
+        yAxis.setTextColor(Color.BLACK);
         barChart.setData(chart);
         barChart.invalidate();
 
@@ -172,6 +159,16 @@ public class ProfileActivity extends Activity {
 
          profileImage = findViewById(R.id.profile_image);
 
+        Button calendar = findViewById(R.id.button_calendar);
+        calendar.setOnClickListener(view -> {
+
+
+            Intent intent = new Intent(this, CalendarActivity.class);
+            startActivity(intent);
+
+
+        });
+
         TextView profileName = findViewById(R.id.profile_name);
         TextView followerCount = findViewById(R.id.followers_count);
         TextView followingCount = findViewById(R.id.following_count);
@@ -180,6 +177,13 @@ public class ProfileActivity extends Activity {
         MaterialButton weightLifted = findViewById(R.id.weight_chart_button);
         MaterialButton repsMade = findViewById(R.id.reps_chart_button);
 
+        repsMade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateChartData("reps");
+            }
+        });
+
         weightLifted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,12 +191,7 @@ public class ProfileActivity extends Activity {
             }
         });
 
-        repsMade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateChartData("reps");
-            }
-        });
+
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();

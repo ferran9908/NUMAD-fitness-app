@@ -1,7 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Fitness App</string>
-
-    <string-array name="dropdown_values">
+    <string-array name="exercise_types_array">
         <item>Weighted</item>
         <item>Body Weight</item>
     </string-array>

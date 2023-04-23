@@ -4,18 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.widget.CalendarView;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class GymActivity extends Activity {
-
+public class CalendarActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gym);
+        setContentView(R.layout.activity_calendar);
 
         //Nave Bar actions
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -25,19 +24,19 @@ public class GymActivity extends Activity {
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         // Handle the home action
-                        Intent intentHome = new Intent(GymActivity.this, NewActivity.class);
+                        Intent intentHome = new Intent(CalendarActivity.this, NewActivity.class);
                         startActivity(intentHome);
 
                         break;
                     case R.id.action_gym:
                         // Handle the search action
-                        Intent intentGym = new Intent(GymActivity.this, GymActivity.class);
+                        Intent intentGym = new Intent(CalendarActivity.this, GymActivity.class);
                         startActivity(intentGym);
 
                         break;
                     case R.id.action_profile:
                         // Handle the settings action
-                        Intent intent = new Intent(GymActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(CalendarActivity.this, ProfileActivity.class);
                         startActivity(intent);
                         break;
                 }
@@ -45,25 +44,9 @@ public class GymActivity extends Activity {
             }
         });
 
-        Button newRoutine = findViewById(R.id.newRoutine);
-        newRoutine.setOnClickListener(view -> {
 
-
-            Intent intent = new Intent(this, NewRoutineActivity.class);
-            startActivity(intent);
-
-
-        });
-
-        Button newWorkout = findViewById(R.id.newWorkout);
-        newWorkout.setOnClickListener(view -> {
-
-
-            Intent intent = new Intent(this, NewWorkoutActivity.class);
-            startActivity(intent);
-
-
-        });
+        CalendarView calendarView = findViewById(R.id.calendarView);
+        calendarView.setDate(System.currentTimeMillis());
 
     }
 }
