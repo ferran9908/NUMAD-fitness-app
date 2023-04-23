@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -88,6 +89,14 @@ public class GymActivity extends Activity {
             startActivity(intent);
 
 
+        });
+
+        findViewById(R.id.searchRoutine).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GymActivity.this, ExploreActivity.class);
+                startActivity(intent);
+            }
         });
 
         getRoutinesFromDb();
