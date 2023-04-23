@@ -3,7 +3,9 @@ package com.example.fitnessapp;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class ItemCard {
+import java.io.Serializable;
+
+public class ItemCard implements Serializable {
 
     private final String itemName;
     private final String itemDesc;
@@ -12,8 +14,6 @@ public class ItemCard {
     public ItemCard(String linkName, String linkDesc) {
         this.itemName = linkName;
         this.itemDesc = linkDesc;
-
-
     }
 
 
@@ -23,5 +23,13 @@ public class ItemCard {
 
     public String getItemDesc() {
         return itemDesc;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemCard{" +
+                "itemName='" + itemName + '\'' +
+                ", itemDesc='" + itemDesc + '\'' +
+                '}';
     }
 }

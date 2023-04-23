@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,8 +40,12 @@ import java.util.HashMap;
 public class ExercisesActivity extends AppCompatActivity {
 
     private static String TAG = "Exercise Activity";
+
+    private ArrayList<ItemCard> addedExercises = new ArrayList<>();
     private ArrayList<ItemCard> itemList = new ArrayList<>();
-    ;
+    private Boolean isEditable = false;
+
+    private FloatingActionButton save;
 
     private RecyclerView recyclerView;
     private RviewAdapter rviewAdapter;
@@ -53,7 +58,31 @@ public class ExercisesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
+        save = findViewById(R.id.save);
+
+
+
+
+        Intent intent = getIntent();
+        String isEditableData = intent.getStringExtra("isEdit");
+        if (isEditableData.equals("true")) {
+            isEditable = true;
+            save.setVisibility(View.VISIBLE);
+        }
+        else {
+            isEditable = false;
+            save.setVisibility(View.GONE);
+        }
+
         init(savedInstanceState);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                saveExercises();
+            }
+        });
 
 
 
@@ -119,6 +148,13 @@ public class ExercisesActivity extends AppCompatActivity {
         });
 //        itemTouchHelper.attachToRecyclerView(recyclerView);
 
+    }
+
+    private void saveExercises(){
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("exercisesAdded", addedExercises);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 
     public void showDialog(View view) {
@@ -297,18 +333,22 @@ public class ExercisesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        rviewAdapter = new RviewAdapter(itemList, this);
-        ItemClickListener itemClickListener = new ItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                //attributions bond to the item has been changed
-                //itemList.get(position).onItemClick(position);
-
-                rviewAdapter.notifyItemChanged(position);
-            }
-
-        };
-        rviewAdapter.setOnItemClickListener(itemClickListener);
+        if(isEditable)
+            rviewAdapter = new RviewAdapter(itemList, this, isEditable, addedExercises);
+        else
+            rviewAdapter = new RviewAdapter(itemList, this);
+//        ItemClickListener itemClickListener = new ItemClickListener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                //attributions bond to the item has been changed
+//                //itemList.get(position).onItemClick(position);
+//                Log.d(TAG, "onItemClick: CLICKED");
+//
+//                rviewAdapter.notifyItemChanged(position);
+//            }
+//
+//        };
+//        rviewAdapter.setOnItemClickListener(itemClickListener);
 
         recyclerView.setAdapter(rviewAdapter);
         recyclerView.setLayoutManager(rLayoutManger);

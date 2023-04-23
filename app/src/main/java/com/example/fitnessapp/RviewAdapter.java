@@ -24,6 +24,9 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder>{
 
     private Context context;
 
+    private Boolean isEditable = false;
+    private ArrayList<ItemCard> addedExercises;
+
 
 
     //Constructor
@@ -31,6 +34,14 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder>{
         this.itemList = itemList;
         this.context = context;
     }
+
+    public RviewAdapter(ArrayList<ItemCard> itemList, Context context, Boolean isEditable, ArrayList<ItemCard> addExercises) {
+        this.itemList = itemList;
+        this.context = context;
+        this.isEditable = isEditable;
+        this.addedExercises = addExercises;
+    }
+
 
     public void setOnItemClickListener(ItemClickListener listener) {
         this.listener = listener;
@@ -41,6 +52,8 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder>{
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
 
 
+        if (isEditable)
+            return new RviewHolder(view, listener, isEditable, addedExercises);
 
         return new RviewHolder(view, listener);
     }
@@ -55,26 +68,26 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder>{
         holder.itemName.setText(currentItem.getItemName());
         holder.itemDesc.setText(currentItem.getItemDesc());
 
-        holder.itemDesc.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // String link =  itemList.get(position).getItemDesc();
-
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-
-                        if (URLUtil.isValidUrl(link[0])) {
-
-                            i.setData(Uri.parse(link[0]));
-                            context.startActivity(i);
-                            link[0] = "";
-                        }
-                        else {
-                            Toast.makeText(context, "Link is not a valid URL", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
+//        holder.itemDesc.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        // String link =  itemList.get(position).getItemDesc();
+//
+//                        Intent i = new Intent(Intent.ACTION_VIEW);
+//
+//                        if (URLUtil.isValidUrl(link[0])) {
+//
+//                            i.setData(Uri.parse(link[0]));
+//                            context.startActivity(i);
+//                            link[0] = "";
+//                        }
+//                        else {
+//                            Toast.makeText(context, "Link is not a valid URL", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                }
+//        );
 
     }
 
@@ -82,6 +95,7 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder>{
     public int getItemCount() {
         return itemList.size();
     }
+
 
 
 }

@@ -181,6 +181,7 @@ public class ProfileActivity extends Activity {
 
         exercise.setOnClickListener(view -> {
             Intent intent = new Intent(this, ExercisesActivity.class);
+            intent.putExtra("isEdit", "false");
             startActivity(intent);
         });
 

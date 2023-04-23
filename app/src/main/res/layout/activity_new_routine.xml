@@ -46,11 +46,10 @@
         android:id="@+id/textInputEditText"
         android:layout_width="185dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
         android:hint="Routine Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/header_block" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -73,20 +72,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <Button
-        android:id="@+id/addExercise"
+        android:id="@+id/saveRoutine"
         android:layout_width="214dp"
         android:layout_height="38dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="356dp"
         android:drawableLeft="@drawable/ic_add"
+        android:text="Save Routine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintVertical_bias="0.854" />
+
+    <Button
+        android:id="@+id/addExercise"
+        android:layout_width="214dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="302dp"
+        android:layout_marginBottom="356dp"
+        android:drawableLeft="@drawable/ic_add"
         android:text="Add Exercise"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        app:layout_constraintVertical_bias="0.849" />
+        app:layout_constraintVertical_bias="0.854" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -101,12 +116,15 @@
         app:menu="@menu/bottom_nav_menu" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="409dp"
         android:layout_height="336dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addExercise" />
+        app:layout_constraintTop_toBottomOf="@+id/addExercise"
+        app:layout_constraintVertical_bias="0.974" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
