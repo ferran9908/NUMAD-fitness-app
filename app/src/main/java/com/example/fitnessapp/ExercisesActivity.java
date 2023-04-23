@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -41,6 +43,34 @@ public class ExercisesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercises);
 
         init(savedInstanceState);
+
+        //Nave Bar actions
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        // Handle the home action
+                        Intent intentHome = new Intent(ExercisesActivity.this, NewActivity.class);
+                        startActivity(intentHome);
+
+                        break;
+                    case R.id.action_gym:
+                        // Handle the search action
+                        Intent intentGym = new Intent(ExercisesActivity.this, GymActivity.class);
+                        startActivity(intentGym);
+
+                        break;
+                    case R.id.action_profile:
+                        // Handle the settings action
+                        Intent intent = new Intent(ExercisesActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
 
 
         //Specify what action a specific gesture performs, in this case swiping right or left deletes the entry

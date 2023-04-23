@@ -57,6 +57,7 @@ public class ProfileActivity extends Activity {
 
         });
 
+
         // Inside onCreate method
         CircleImageView profileImage = findViewById(R.id.profile_image);
         profileImage.setOnClickListener(new View.OnClickListener() {
