@@ -26,6 +26,8 @@
             android:configChanges="orientation|screenSize|screenLayout"></activity>
         <activity android:name=".CalendarActivity"
             android:configChanges="orientation|screenSize|screenLayout"></activity>
+        <activity android:name=".NewWorkoutActivity"
+            android:configChanges="orientation|screenSize|screenLayout"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -172,23 +172,7 @@ public class ExercisesActivity extends AppCompatActivity {
         alertName.show();
     }
 
-    public void GetUrlFromIntent(View view) {
 
-        TextView text = findViewById(R.id.item_desc);
-        String link = text.getText().toString();
-        Intent i = new Intent(Intent.ACTION_VIEW);
-
-        if (URLUtil.isValidUrl(link)) {
-
-            i.setData(Uri.parse(link));
-            startActivity(i);
-            link = "";
-        }
-        else {
-            Toast.makeText(ExercisesActivity.this, "Link is not a valid URL", Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
 
 
