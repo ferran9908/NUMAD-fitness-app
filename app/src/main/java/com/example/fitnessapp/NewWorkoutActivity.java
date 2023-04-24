@@ -1,16 +1,21 @@
 package com.example.fitnessapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class NewWorkoutActivity extends Activity {
+    FloatingActionButton fab;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,25 +49,18 @@ public class NewWorkoutActivity extends Activity {
             }
         });
 
-//        Button newRoutine = findViewById(R.id.newRoutine);
-//        newRoutine.setOnClickListener(view -> {
-//
-//
-//            Intent intent = new Intent(this, NewRoutineActivity.class);
-//            startActivity(intent);
-//
-//
-//        });
-//
-//        Button newWorkout = findViewById(R.id.newWorkout);
-//        newRoutine.setOnClickListener(view -> {
-//
-//
-//            Intent intent = new Intent(this, NewWorkoutActivity.class);
-//            startActivity(intent);
-//
-//
-//        });
+        fab = findViewById(R.id.addWork);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NewWorkoutActivity.this, ExercisesActivity.class);
+                intent.putExtra("isEdit", "false");
+                startActivity(intent);
+
+            }
+        });
+
+
 
     }
 }
