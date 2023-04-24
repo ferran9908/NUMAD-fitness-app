@@ -56,6 +56,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/streak"
                     android:layout_width="64dp"
                     android:layout_height="wrap_content"
                     android:text="0 Weeks" />
@@ -63,7 +64,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="STREAK" />
+                    android:text="RECORD" />
 
             </LinearLayout>
 
@@ -87,6 +88,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/rest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 days" />
