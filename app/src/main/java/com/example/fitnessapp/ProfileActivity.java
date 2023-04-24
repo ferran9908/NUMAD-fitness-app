@@ -12,6 +12,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +56,12 @@ public class ProfileActivity extends Activity {
     private static final int REQUEST_CAMERA_PERMISSION = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 200;
 
+    private ArrayList<WorkoutProfile> workoutProfileList = new ArrayList<>();
+
     private CircleImageView profileImage;
+
+    private RecyclerView recyclerView;
+    private WorkoutProfileAdapter activeExerciseAdapter;
 
     private double totalWeight = 0;
     private double totalReps = 0;
@@ -66,6 +74,14 @@ public class ProfileActivity extends Activity {
         dailyWeights = new int[7];
         dailyReps = new int[7];
     }
+
+    public static String getRandomRoutineType() {
+        String[] routineTypes = {"Core day", "Leg Day", "Push Day", "Pull Day", "Chest Day", "Back Day", "Arm Day"};
+        Random random = new Random();
+        int randomIndex = random.nextInt(routineTypes.length);
+        return routineTypes[randomIndex];
+    }
+
     private void fetchDataForDay(DatabaseReference dayTotalsRef, int index) {
         dayTotalsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -150,12 +166,105 @@ public class ProfileActivity extends Activity {
         barChart.invalidate();
 
     }
+    private void init() {
+        setup();
+    }
+
+    private void setup() {
+        // Not the first time to open this Activity
+//        if (savedInstanceState != null && savedInstanceState.containsKey(NUMBER_OF_ITEMS)) {
+//            if (profileList == null || profileList.size() == 0) {
+//
+//                int size = savedInstanceState.getInt(NUMBER_OF_ITEMS);
+//
+//                // Retrieve keys we stored in the instance
+//                for (int i = 0; i < size; i++) {
+//
+//                    // @Ferr Replace with DB data for profiles
+//
+//                    String profileName = "null";
+//                    String exercise = "null";
+//                    String time = "null";
+//                    String workout1 = "null";
+//                    String workout2 = " ";
+//                    String workout3 = " ";
+//
+//                    ProfileCard profileCard = new ProfileCard(profileName, exercise, time, workout1, workout2, workout3, "");
+//
+//                    profileList.add(profileCard);
+//                }
+//            }
+//        }
+//        //The first time to opne this Activity
+//        else {
+            DatabaseReference workoutsRef, usersRef;
+            workoutsRef = FirebaseDatabase.getInstance().getReference("workouts");
+            usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+            workoutsRef.limitToFirst(10).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot userWorkouts : dataSnapshot.getChildren()) {
+                        String userId = userWorkouts.getKey();
+
+                        usersRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                                String displayName = userSnapshot.child("displayName").getValue(String.class);
+                                String imageUrl = userSnapshot.child("imageUrl").getValue(String.class);
+
+                                for (DataSnapshot workoutSnapshot : userWorkouts.getChildren()) {
+                                    DataSnapshot workoutDataSnapshot = workoutSnapshot.child("workout").child("exercises");
+                                    StringBuilder exercisesBuilder = new StringBuilder();
+
+                                    for (DataSnapshot exerciseDataSnapshot : workoutDataSnapshot.getChildren()) {
+//                                        String exerciseName = exerciseDataSnapshot.child("name").getValue(String.class);
+                                        String exerciseName = exerciseDataSnapshot.getKey();
+                                        exercisesBuilder.append(exerciseName).append("\n");
+                                    }
+
+                                    String exercises = exercisesBuilder.toString().trim();
+                                    Log.d("EXERCISES", "onDataChange: " + exercises);
+                                    String cDisplayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+
+                                    if (cDisplayName.equals(displayName)){
+                                        // Replace "RoutineType" with the actual routine type for the workout
+                                        WorkoutProfile workoutProfile = new WorkoutProfile(displayName, getRandomRoutineType(), exercises, imageUrl);
+                                        workoutProfileList.add(workoutProfile);
+                                    }
+
+                                }
+                                recyclerView = findViewById(R.id.profile_recycler_view);
+                                WorkoutProfileAdapter workoutProfile = new WorkoutProfileAdapter(ProfileActivity.this, workoutProfileList);
+                                activeExerciseAdapter = workoutProfile;
+                                recyclerView.setAdapter(workoutProfile);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.w("TAG", "loadUserData:onCancelled", error.toException());
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.w("TAG", "loadWorkoutData:onCancelled", error.toException());
+                }
+            });
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 //        requestCameraPermission();
+
+        init();
 
          profileImage = findViewById(R.id.profile_image);
 

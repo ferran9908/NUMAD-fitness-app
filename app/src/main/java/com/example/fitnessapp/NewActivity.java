@@ -92,7 +92,6 @@ public class NewActivity extends Activity {
     }
 
     private void init1(Bundle savedInstanceState) {
-
         initialItemData1(savedInstanceState);
     }
 
@@ -158,39 +157,6 @@ public class NewActivity extends Activity {
 
             workoutsRef.limitToFirst(10).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-//                public void onDataChange(@NonNull DataSnapshot userSnapshot) {
-//                    String displayName = userSnapshot.child("displayName").getValue(String.class);
-//                    String imageUrl = userSnapshot.child("imageUrl").getValue(String.class);
-//
-//                    for (DataSnapshot workoutSnapshot : userWorkouts.getChildren()) {
-//                        DataSnapshot workoutDataSnapshot = workoutSnapshot.child("workout");
-//                        DataSnapshot exercisesDataSnapshot = workoutDataSnapshot.child("exercise");
-//
-//                        StringBuilder exercisesBuilder = new StringBuilder();
-//
-//                        for (DataSnapshot exerciseDataSnapshot : exercisesDataSnapshot.getChildren()) {
-//                            String exerciseName = exerciseDataSnapshot.child("name").getValue(String.class);
-//                            exercisesBuilder.append(exerciseName).append("\n");
-//                        }
-//
-//                        String exercises = exercisesBuilder.toString().trim();
-//                        Log.d("EXERCISES", "onDataChange: " + exercises);
-//                        String cDisplayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-//
-//                        if (!cDisplayName.equals(displayName)){
-//                            // Replace "RoutineType" with the actual routine type for the workout
-//                            WorkoutProfile workoutProfile = new WorkoutProfile(displayName, getRandomRoutineType(), exercises, imageUrl);
-//                            workoutProfileList.add(workoutProfile);
-//                        }
-//
-//                    }
-//                    recyclerView1 = findViewById(R.id.recycler_view);
-//                    WorkoutProfileAdapter workoutProfile = new WorkoutProfileAdapter(NewActivity.this, workoutProfileList);
-//                    workoutProfileAdapter = workoutProfile;
-//                    recyclerView1.setAdapter(workoutProfile);
-//                    recyclerView1.setLayoutManager(new LinearLayoutManager(NewActivity.this));
-//                }
-
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot userWorkouts : dataSnapshot.getChildren()) {
                         String userId = userWorkouts.getKey();

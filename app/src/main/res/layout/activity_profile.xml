@@ -112,12 +112,12 @@
         android:id="@+id/bar_chart"
         android:layout_width="344dp"
         android:layout_height="190dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="184dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingClass" >
-    </com.github.mikephil.charting.charts.BarChart>
+        tools:ignore="MissingClass"></com.github.mikephil.charting.charts.BarChart>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/weight_chart_button"
@@ -129,7 +129,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button_exercises"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bar_chart"
-        app:layout_constraintVertical_bias="0.511"
+        app:layout_constraintVertical_bias="0.183"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Pill" />
 
     <com.google.android.material.button.MaterialButton
@@ -140,9 +140,10 @@
         android:text="Reps"
         app:layout_constraintBottom_toTopOf="@+id/button_calendar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.451"
         app:layout_constraintStart_toEndOf="@+id/weight_chart_button"
         app:layout_constraintTop_toBottomOf="@id/bar_chart"
-        app:layout_constraintVertical_bias="0.511"
+        app:layout_constraintVertical_bias="0.186"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Pill" />
 
     <LinearLayout
@@ -188,7 +189,8 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toStartOf="@+id/button_calendar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_grid" />
+        app:layout_constraintTop_toBottomOf="@+id/button_grid"
+        app:layout_constraintVertical_bias="0.223" />
 
     <Button
         android:id="@+id/button_calendar"
@@ -200,7 +202,18 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_exercises"
-        app:layout_constraintTop_toBottomOf="@+id/button_grid" />
+        app:layout_constraintTop_toBottomOf="@+id/button_grid"
+        app:layout_constraintVertical_bias="0.223" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/profile_recycler_view"
+        android:layout_width="384dp"
+        android:layout_height="221dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
