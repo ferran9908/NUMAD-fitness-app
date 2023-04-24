@@ -125,22 +125,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginBottom="30px"
         android:text="Weight Lifted"
-        app:layout_constraintBottom_toTopOf="@id/button_grid"
+        app:layout_constraintBottom_toTopOf="@+id/button_exercises"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bar_chart"
+        app:layout_constraintTop_toBottomOf="@+id/bar_chart"
         app:layout_constraintVertical_bias="0.511"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Pill" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/reps_chart_button"
         style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30px"
+        android:layout_width="132dp"
+        android:layout_height="49dp"
         android:text="Reps"
-        app:layout_constraintBottom_toTopOf="@id/button_grid"
+        app:layout_constraintBottom_toTopOf="@+id/button_calendar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/weight_chart_button"
         app:layout_constraintTop_toBottomOf="@id/bar_chart"
@@ -162,15 +160,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button_calendar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Calendar" />
         </LinearLayout>
     </LinearLayout>
 
@@ -188,12 +180,27 @@
 
     <Button
         android:id="@+id/button_exercises"
-        android:layout_width="429dp"
-        android:layout_height="55dp"
+        android:layout_width="187dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="10dp"
         android:layout_weight="1"
         android:text="Exercises"
-        tools:layout_editor_absoluteX="-25dp"
-        tools:layout_editor_absoluteY="454dp" />
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toStartOf="@+id/button_calendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_grid" />
+
+    <Button
+        android:id="@+id/button_calendar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:text="Calendar"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_exercises"
+        app:layout_constraintTop_toBottomOf="@+id/button_grid" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
