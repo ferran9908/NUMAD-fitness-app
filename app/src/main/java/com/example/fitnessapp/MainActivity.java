@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Signed in as: " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
             Intent mainScreen = new Intent(MainActivity.this, NewActivity.class);
             MainActivity.this.startActivity(mainScreen);
+            finish();
         }
     }
 

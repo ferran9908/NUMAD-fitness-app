@@ -24,47 +24,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Log Workout"
+            android:text="Log Your Workout!"
             android:textColor="@color/black"
             android:textSize="22sp" />
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addActive"
+        android:layout_width="65dp"
+        android:layout_height="57dp"
+        android:layout_margin="16dp"
+        android:onClick="showDialog"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText"
-        app:layout_constraintVertical_bias="0.452"
-        app:srcCompat="@drawable/ic_gym" />
+        app:layout_constraintTop_toTopOf="@+id/active_workout_recycler_view"
+        app:layout_constraintVertical_bias="0.957"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:text="Get started by adding an exercise to your routine"
-        app:layout_constraintBottom_toTopOf="@+id/addExercise"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save"
+        android:layout_width="65dp"
+        android:layout_height="57dp"
+        android:layout_margin="16dp"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/addExercise"
-        android:layout_width="214dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="275dp"
-        android:layout_marginBottom="356dp"
-        android:drawableLeft="@drawable/ic_add"
-        android:text="Add Exercise"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.898"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_block"
-        app:layout_constraintVertical_bias="0.849" />
+        app:layout_constraintTop_toTopOf="@+id/active_workout_recycler_view"
+        app:layout_constraintVertical_bias="0.953"
+        app:srcCompat="@android:drawable/ic_menu_save"
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -78,7 +72,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/active_workout_recycler_view"
+        android:layout_width="409dp"
+        android:layout_height="538dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_block"
+        app:layout_constraintVertical_bias="0.135" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
