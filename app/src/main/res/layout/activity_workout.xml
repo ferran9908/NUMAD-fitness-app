@@ -31,7 +31,22 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addWork"
+        android:id="@+id/addActive"
+        android:layout_width="65dp"
+        android:layout_height="57dp"
+        android:layout_margin="16dp"
+        android:onClick="showDialog"
+        app:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/active_workout_recycler_view"
+        app:layout_constraintVertical_bias="0.957"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save"
         android:layout_width="65dp"
         android:layout_height="57dp"
         android:layout_margin="16dp"
@@ -42,7 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/active_workout_recycler_view"
         app:layout_constraintVertical_bias="0.953"
-        app:srcCompat="@android:drawable/ic_input_add"
+        app:srcCompat="@android:drawable/ic_menu_save"
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
