@@ -26,18 +26,21 @@ public class CalendarActivity extends Activity {
                         // Handle the home action
                         Intent intentHome = new Intent(CalendarActivity.this, NewActivity.class);
                         startActivity(intentHome);
+                        finish();
 
                         break;
                     case R.id.action_gym:
                         // Handle the search action
                         Intent intentGym = new Intent(CalendarActivity.this, GymActivity.class);
                         startActivity(intentGym);
+                        finish();
 
                         break;
                     case R.id.action_profile:
                         // Handle the settings action
                         Intent intent = new Intent(CalendarActivity.this, ProfileActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
                 }
                 return true;

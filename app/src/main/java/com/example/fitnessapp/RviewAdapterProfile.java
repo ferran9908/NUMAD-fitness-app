@@ -19,7 +19,6 @@ public class RviewAdapterProfile extends RecyclerView.Adapter<RviewHolderProfile
     private Context context;
 
 
-
     //Constructor
     public RviewAdapterProfile(ArrayList<ProfileCard> profileList, Context context) {
         this.profileList = profileList;

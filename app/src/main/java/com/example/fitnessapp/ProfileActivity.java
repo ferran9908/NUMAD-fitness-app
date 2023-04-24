@@ -297,19 +297,19 @@ public class ProfileActivity extends Activity {
                         // Handle the home action
                         Intent intentHome = new Intent(ProfileActivity.this, NewActivity.class);
                         startActivity(intentHome);
-
+                        finish();
                         break;
                     case R.id.action_gym:
                         // Handle the search action
                         Intent intentGym = new Intent(ProfileActivity.this, GymActivity.class);
                         startActivity(intentGym);
-
+                        finish();
                         break;
                     case R.id.action_profile:
                         // Handle the settings action
                         Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
                         startActivity(intent);
-
+                        finish();
                         break;
                 }
                 return true;

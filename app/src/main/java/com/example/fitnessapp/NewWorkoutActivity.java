@@ -57,6 +57,7 @@ public class NewWorkoutActivity extends Activity {
                         // Handle the home action
                         Intent intentHome = new Intent(NewWorkoutActivity.this, NewActivity.class);
                         startActivity(intentHome);
+                        finish();
 
                         break;
                     case R.id.action_gym:
@@ -64,11 +65,13 @@ public class NewWorkoutActivity extends Activity {
                         Intent intentGym = new Intent(NewWorkoutActivity.this, GymActivity.class);
                         startActivity(intentGym);
 
+                        finish();
                         break;
                     case R.id.action_profile:
                         // Handle the settings action
                         Intent intent = new Intent(NewWorkoutActivity.this, ProfileActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
                 }
                 return true;

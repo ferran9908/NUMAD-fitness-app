@@ -96,18 +96,21 @@ public class ExercisesActivity extends AppCompatActivity {
                         // Handle the home action
                         Intent intentHome = new Intent(ExercisesActivity.this, NewActivity.class);
                         startActivity(intentHome);
+                        finish();
 
                         break;
                     case R.id.action_gym:
                         // Handle the search action
                         Intent intentGym = new Intent(ExercisesActivity.this, GymActivity.class);
                         startActivity(intentGym);
+                        finish();
 
                         break;
                     case R.id.action_profile:
                         // Handle the settings action
                         Intent intent = new Intent(ExercisesActivity.this, ProfileActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
                 }
                 return true;
