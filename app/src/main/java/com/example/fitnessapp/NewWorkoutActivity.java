@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,16 +17,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewWorkoutActivity extends Activity {
     private static String TAG = "New Workout Activity";
     private static final int GET_WORKOUTS = 9021;
-    FloatingActionButton fab;
+    FloatingActionButton fab, save;
 
     private RecyclerView recyclerView;
-    private RviewAdapter rviewAdapter;
+    private ActiveExerciseAdapter AeRecyclerViewAdapter;
 
     private ArrayList<ItemCard> addedExercises = new ArrayList<>();
     private ArrayList<ActiveExercise> activeExercises = new ArrayList<>();
@@ -79,6 +87,67 @@ public class NewWorkoutActivity extends Activity {
 
 
 
+        save = findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (AeRecyclerViewAdapter.getIdx().size() == activeExercises.size()) {
+                    Toast.makeText(NewWorkoutActivity.this, "Saving your workout...", Toast.LENGTH_SHORT).show();
+                    ArrayList<ActiveExercise> eList = AeRecyclerViewAdapter.getExercises();
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid = currentUser.getUid();
+                    // Create a new workoutId
+                    DatabaseReference workoutRef = FirebaseDatabase.getInstance().getReference().child("workouts").child(uid).push();
+                    String workoutId = workoutRef.getKey();
+
+                    // Set date
+                    LocalDate currentDate = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        currentDate = LocalDate.now();
+                    }
+
+                    int totalReps = 0;
+                    double totalWeight = 0;
+
+                    workoutRef.child("date").setValue(currentDate.toString());
+
+                    // Save exercises
+                    for (ActiveExercise exercise : eList) {
+                        DatabaseReference exerciseRef = workoutRef.child("workout").child("exercise").child(exercise.getExerciseName());
+
+                        // Save sets
+                        Map<String, Object> set1 = new HashMap<>();
+                        set1.put("reps", exercise.getRep1());
+                        set1.put("weight", exercise.getWeight1());
+                        exerciseRef.child("sets").child("1").setValue(set1);
+
+                        Map<String, Object> set2 = new HashMap<>();
+                        set2.put("reps", exercise.getRep2());
+                        set2.put("weight", exercise.getWeight2());
+                        exerciseRef.child("sets").child("2").setValue(set2);
+
+                        Map<String, Object> set3 = new HashMap<>();
+                        set3.put("reps", exercise.getRep3());
+                        set3.put("weight", exercise.getWeight3());
+                        exerciseRef.child("sets").child("3").setValue(set3);
+
+                        totalReps += exercise.getRep1() + exercise.getRep2() + exercise.getRep3();
+                        totalWeight += exercise.getRep1() * exercise.getWeight1() +
+                                exercise.getRep2() * exercise.getWeight2() +
+                                exercise.getRep3() * exercise.getWeight3();
+
+                    }
+
+                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("daily_totals").child(currentDate.toString());
+                    userRef.child("reps").setValue(totalReps);
+                    userRef.child("weight").setValue(totalWeight);
+                    finish();
+                }else {
+                    Toast.makeText(NewWorkoutActivity.this, "Please Lock/Save all exercises!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
     }
 
@@ -96,11 +165,11 @@ public class NewWorkoutActivity extends Activity {
                 else
                     e = new ActiveExercise(element.getItemName(), false);
                 activeExercises.add(e);
-                Log.d(TAG, "onActivityResult: " + element);
             }
             ActiveExerciseAdapter activeExerciseAdapter = new ActiveExerciseAdapter(NewWorkoutActivity.this, activeExercises);
             recyclerView.setAdapter(activeExerciseAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(NewWorkoutActivity.this));
+            this.AeRecyclerViewAdapter = activeExerciseAdapter;
         }
     }
 }
